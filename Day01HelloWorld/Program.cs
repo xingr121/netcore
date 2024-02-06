@@ -1,46 +1,259 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Day01HelloWorld
 {
     internal class Program
     {
+        static List<Person> people = new List<Person>();
+        const string filePath = @"..\..\people.txt";
+
         static void Main(string[] args)
+        {
+            /*  try
+              {
+                  Console.WriteLine("Hello World");
+                  Console.Write("What is your name?");
+                  string name = Console.ReadLine();
+                  Console.WriteLine("what is your age");
+                  string agestr = Console.ReadLine();
+                  int age = int.Parse(agestr); //ex FormatException, OverflowException
+                  int agetwo;
+                  if (int.TryParse(agestr, out agetwo))
+                  {
+                      Console.WriteLine("hello {0}, you are {1} y/o", name, agetwo);
+                  }
+
+                  Console.WriteLine("hello {0}, you are {1} years old", name, age);
+                  string greeting = $"hello {name},you are {age} years old";
+                  Console.WriteLine(greeting);
+                  int nameLen = name.Length;
+                  if (name.ToLower() == "santa")
+                  {
+                      Console.WriteLine("santa, is you");
+                  }
+              }
+              catch (Exception ex) when (ex is FormatException || ex is OverflowException)
+              {
+                  Console.WriteLine($"Error:you must enter an integer number({ex.ToString()}).");
+              }
+              finally
+              {
+                  Console.WriteLine("presss any key to finish");
+                  Console.ReadKey();
+              }
+            */
+
+
+            ReadAllPeopleFromFile();
+
+            int choice;
+            do
+            {
+                displayMenu();
+                string ch = Console.ReadLine();
+                if (int.TryParse(ch, out choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            AddPersonInfo();
+                            break;
+                        case 2:
+                            ListAllPersonsInfo();
+                            break;
+                        case 3:
+                            FindPersonByName();
+                            break;
+                        case 4:
+                            FindPersonYoungerThan();
+                            break;
+                        case 0:
+                            Console.WriteLine("Goodbye!");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid input");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("invalid input");
+                }
+
+
+            } while (choice != 0);
+
+
+            SaveAllPeopleToFile();
+
+
+        }
+        static void displayMenu()
+        {
+            Console.WriteLine("What do you want to do?\r\n" + "1. Add person info\r\n"
+                    + "2. List persons info\r\n"
+                    + "3. Find a person by name\r\n"
+                    + "4. Find all persons younger than age\r\n" + "0. Exit\r\n"
+                    + "Please enter your choice: ");
+        }
+        static void AddPersonInfo()
+        {
+            Console.WriteLine("How many persons do you want to add?");
+            string numStr = Console.ReadLine();
+            int num;
+            if (int.TryParse(numStr, out num))
+            {
+                for (int j = 1; j <= num; j++)
+                {
+                    Person person = new Person();
+                    Console.WriteLine("person" + j + " Enter the name: ");
+                    string name = Console.ReadLine();
+                    person.Name = name;
+                    Console.WriteLine("person" + j + " Enter the age: ");
+                    string ageStr = Console.ReadLine();
+                    int age;
+                    if (int.TryParse(ageStr, out age) || age < 0)
+                    {
+                        person.Age = age;
+                    }
+                    Console.WriteLine("person" + j + " Enter the city: ");
+                    string city = Console.ReadLine();
+                    person.City = city;
+                    people.Add(person);
+                }
+            }
+            else
+            {
+                Console.WriteLine("invalid input");
+            }
+            Console.WriteLine("Succesfully added" + num + "person");
+            return;
+        }
+        static void ListAllPersonsInfo()
+        {
+            Console.WriteLine("all persons info as following:");
+            foreach (var person in people)
+            {
+                Console.WriteLine(person);
+            }
+        }
+        static void FindPersonByName()
+        {
+            Console.WriteLine("what is the name are you searching for?");
+            string pName = Console.ReadLine();
+            foreach (var person in people)
+            {
+                if (person.Name == pName)
+                {
+                    Console.WriteLine(person);
+                }
+            }
+        }
+        static void FindPersonYoungerThan()
+        {
+            Console.WriteLine("Enter the age limit for your search");
+            string ageStr = Console.ReadLine();
+            int age;
+            if (int.TryParse(ageStr, out age))
+            {
+                foreach (var person in people)
+                {
+                    if (person.Age < age)
+                    {
+                        Console.WriteLine(person);
+                    }
+                }
+            }
+
+        }
+        static void ReadAllPeopleFromFile()
         {
             try
             {
-            Console.WriteLine("Hello World");
-            Console.Write("What is your name?");
-            string name=Console.ReadLine();
-            Console.WriteLine("what is your age");
-            string agestr=Console.ReadLine();
-                int age = int.Parse(agestr); //ex FormatException, OverflowException
-                int agetwo;
-                if (int.TryParse(agestr, out agetwo))
+                if (!File.Exists(filePath))
                 {
-                    Console.WriteLine("hello {0}, you are {1} y/o", name, agetwo);
+                    Console.WriteLine("File not found.");
+                    return;
                 }
 
-            Console.WriteLine("hello {0}, you are {1} years old", name, age);
-                string greeting = $"hello {name},you are {age} years old";
-                Console.WriteLine(greeting);
-                    int nameLen=name.Length;
-                if (name.ToLower() == "santa")
+                string[] readText = File.ReadAllLines(filePath);
+                foreach (string line in readText)
                 {
-                    Console.WriteLine("santa, is you");
+                    string[] parts = line.Split(';');
+                    if (parts.Length == 3)
+                    {
+                        string name = parts[0];
+                        string city = parts[2];
+                        if (int.TryParse(parts[1], out int age))
+                        {
+                            Person person = new Person { Name = name, Age = age,City=city, };
+                            people.Add(person);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Invalid age for person: {line}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Invalid data format: {line}");
+                    }
                 }
-            }catch(Exception ex) when(ex is FormatException ||ex is OverflowException)
+            }
+            catch (SystemException ex)
             {
-                Console.WriteLine($"Error:you must enter an integer number({ex.ToString()}).");
+                Console.WriteLine("Error reading to file:" + ex.Message);
             }
-            finally { Console.WriteLine("presss any key to finish");
-            Console.ReadKey();
+
+        }
+        static void SaveAllPeopleToFile()
+        {
+            try
+            {
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    foreach (var person in people)
+                    {
+                        writer.WriteLine($"{person.Name};{person.Age};{person.City}");
+                    }
+                }
             }
-           
+            catch (SystemException ex)
+            {
+                Console.WriteLine("Error writing to file:" + ex.Message);
+            }
+
 
         }
     }
+    public class Person
+    {
+        public string Name { get; set; }
+        public int Age { get; set; }
+        public string City { get; set; }
+
+        public Person()
+        {
+        }
+
+        public Person(string name, int age, string city)
+        {
+            this.Name = name;
+            this.Age = age;
+            this.City = city;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name};{Age};{City}";
+        }
+    }
+
 }
