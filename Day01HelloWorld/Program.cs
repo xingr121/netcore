@@ -49,9 +49,22 @@ namespace Day01HelloWorld
                   Console.ReadKey();
               }
             */
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    Console.WriteLine("File not found. Exiting program.");
+                    Environment.Exit(1); 
+                }
+                
+            }
+            catch (SystemException ex)
+            {
+                Console.WriteLine("Error reading from file: " + ex.Message);
+            }
+        
 
-
-            ReadAllPeopleFromFile();
+        ReadAllPeopleFromFile();
 
             int choice;
             do
@@ -78,13 +91,13 @@ namespace Day01HelloWorld
                             Console.WriteLine("Goodbye!");
                             break;
                         default:
-                            Console.WriteLine("Invalid input");
+                            Console.WriteLine("Invalid input, try again");
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("invalid input");
+                    Console.WriteLine("invalid choice, try again");
                 }
 
 
@@ -150,7 +163,7 @@ namespace Day01HelloWorld
             string pName = Console.ReadLine();
             foreach (var person in people)
             {
-                if (person.Name == pName)
+                if (person.Name.Contains(pName))
                 {
                     Console.WriteLine(person);
                 }
@@ -252,7 +265,7 @@ namespace Day01HelloWorld
 
         public override string ToString()
         {
-            return $"{Name};{Age};{City}";
+            return $"{Name} is {Age} from {City}";
         }
     }
 
