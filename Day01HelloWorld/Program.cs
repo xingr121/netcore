@@ -54,17 +54,17 @@ namespace Day01HelloWorld
                 if (!File.Exists(filePath))
                 {
                     Console.WriteLine("File not found. Exiting program.");
-                    Environment.Exit(1); 
+                    Environment.Exit(1);
                 }
-                
+
             }
             catch (SystemException ex)
             {
                 Console.WriteLine("Error reading from file: " + ex.Message);
             }
-        
 
-        ReadAllPeopleFromFile();
+
+            ReadAllPeopleFromFile();
 
             int choice;
             do
@@ -126,27 +126,54 @@ namespace Day01HelloWorld
                 for (int j = 1; j <= num; j++)
                 {
                     Person person = new Person();
-                    Console.WriteLine("person" + j + " Enter the name: ");
-                    string name = Console.ReadLine();
-                    person.Name = name;
-                    Console.WriteLine("person" + j + " Enter the age: ");
-                    string ageStr = Console.ReadLine();
-                    int age;
-                    if (int.TryParse(ageStr, out age) || age < 0)
+                    string name;
+                    do
                     {
-                        person.Age = age;
-                    }
-                    Console.WriteLine("person" + j + " Enter the city: ");
-                    string city = Console.ReadLine();
+                        Console.WriteLine("person" + j + " Enter the name: ");
+                        name = Console.ReadLine().Trim();
+                        if (string.IsNullOrEmpty(name))
+                        {
+                            Console.WriteLine("Name cannot be empty. Please enter a valid name.");
+                        }
+                    } while (string.IsNullOrEmpty(name));
+
+
+                    person.Name = name;
+                    string ageStr;
+                    int age;
+                    do
+                    {
+                        Console.WriteLine("person" + j + " Enter the age: ");
+                        ageStr = Console.ReadLine();
+
+                        if (!int.TryParse(ageStr, out age) || age < 0)
+                        {
+                            Console.WriteLine("Invalid age.");
+                        }
+                    } while (!int.TryParse(ageStr, out age) || age < 0);
+
+                    person.Age = age;
+
+                    string city;
+                    do
+                    {
+                        Console.WriteLine("person" + j + " Enter the city: ");
+                        city = Console.ReadLine().Trim();
+                        if (string.IsNullOrEmpty(city))
+                        {
+                            Console.WriteLine("City cannot be empty. Please enter a valid city name.");
+                        }
+                    } while (string.IsNullOrEmpty(city));
                     person.City = city;
                     people.Add(person);
                 }
             }
             else
             {
+
                 Console.WriteLine("invalid input");
             }
-            Console.WriteLine("Succesfully added" + num + "person");
+            Console.WriteLine("Succesfully added" + num + "person(s)");
             return;
         }
         static void ListAllPersonsInfo()
@@ -206,7 +233,7 @@ namespace Day01HelloWorld
                         string city = parts[2];
                         if (int.TryParse(parts[1], out int age))
                         {
-                            Person person = new Person { Name = name, Age = age,City=city, };
+                            Person person = new Person { Name = name, Age = age, City = city, };
                             people.Add(person);
                         }
                         else

@@ -1,2 +1,5 @@
 tom;20;montreal
 jerry;30;montreal
+max;26;toronto
+charlie;45;montreal
+xi;45;toronto
