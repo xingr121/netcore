@@ -1,0 +1,2 @@
+Jerry;18-35;cat,other;Asia;20.4311926605505
+ tom;below 18;cat,dog;North America;24
