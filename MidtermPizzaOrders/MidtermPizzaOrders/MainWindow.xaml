@@ -1,0 +1,50 @@
+﻿<Window x:Class="MidtermPizzaOrders.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MidtermPizzaOrders"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Click="MiExport_Click" Header="E_xport all to CSV..." />
+                <Separator />
+                <MenuItem Header="_Exit" Click="MiExit_Click" />
+            </MenuItem>
+            <MenuItem Header="_Mark selected">
+                <MenuItem Header="_Placed" Click="Place_Click"/>
+                <MenuItem Header="_Fulfilled" Click="Fulfill_Click"/>
+            </MenuItem>
+            <MenuItem Header="_New order" Click="MiOrder_Click"/> <!-- NewOrderDialog is shown when this is clicked -->
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="LblStatusMessage" Text=""/>
+            </StatusBarItem>
+        </StatusBar>
+        <ListView Name="LvOrders" SelectionMode="Extended">
+        <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" Width="25" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Client name" Width="150" DisplayMemberBinding="{Binding ClientName}" />
+                    <GridViewColumn Header="Post code" Width="65" DisplayMemberBinding="{Binding ClientPostalCode}" />
+                    <GridViewColumn Header="Deadline" Width="150" DisplayMemberBinding="{Binding DeliveryDeadline}" />
+                    <!-- you must add all the remaining columns here -->
+                    <GridViewColumn Header="Size" Width="80" DisplayMemberBinding="{Binding Size}" />
+                     <GridViewColumn Header="Baking Time" Width="80" DisplayMemberBinding="{Binding BakingTimeMinutes}" />
+                    <GridViewColumn Header="Extras" Width="150" DisplayMemberBinding="{Binding Extras}" />
+                    <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding OrderStatus}" />
+                </GridView>
+               
+        </ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu> 
+                     <MenuItem Header="Placed" Click="CmPlace_Click" />
+                    <MenuItem Header="Fulfilled" Click="CmFulfill_Click" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+    </DockPanel>
+</Window>
