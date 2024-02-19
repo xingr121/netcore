@@ -1,0 +1,44 @@
+﻿<Window x:Class="toDoList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:toDoList"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="1000">
+    <Grid Height="324" VerticalAlignment="Top" Margin="0,10,0,0">
+        <ListView Name="LvToDo" Margin="17,6,327,69" SelectionChanged="LvToDo_SelectionChanged" SelectionMode="Single">
+            <ListView.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="TextWrapping" Value="NoWrap"/>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Task" Width="350" DisplayMemberBinding="{Binding Task}" />
+                    <GridViewColumn Header="Difficulty" Width="60" DisplayMemberBinding="{Binding Difficulty}" />
+                     <GridViewColumn Header="Due Date" Width="150" DisplayMemberBinding="{Binding DueDate, StringFormat='\d'}" />
+                    <GridViewColumn Header="Status" Width="70" DisplayMemberBinding="{Binding Status}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Task" HorizontalAlignment="Left" Margin="674,8,0,0" VerticalAlignment="Top" Width="69" Height="29"></Label>
+        <TextBox Name="TaskIuput" HorizontalAlignment="Left" Margin="727,14,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="132" Height="23"/>
+        <Label Content="Difficulty" HorizontalAlignment="Left" Margin="674,57,0,0" VerticalAlignment="Top" Width="69" Height="29"/>
+        <Slider Name="SlDifficulty" IsSelectionRangeEnabled="True" IsSnapToTickEnabled="True" TickPlacement="TopLeft" TickFrequency="1" Maximum="5" Minimum="1" HorizontalAlignment="Left" Margin="827,62,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox Name="TbxDifficulty"  HorizontalAlignment="Left" Margin="751,57,0,0" TextWrapping="Wrap" Text="{Binding ElementName=SlDifficulty, Path=Value, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="31" Height="28" RenderTransformOrigin="0.176,1.149"/>
+        <Label Content="Due Date" HorizontalAlignment="Left" Margin="674,103,0,0" VerticalAlignment="Top" Width="69" Height="29"/>
+        <DatePicker Name="DueDate" HorizontalAlignment="Left" Margin="772,106,0,0" VerticalAlignment="Top"/>
+        <Label Content="Status" HorizontalAlignment="Left" Margin="674,149,0,0" VerticalAlignment="Top" Width="69" Height="29"/>
+        <ComboBox Name="CbxStatus"  HorizontalAlignment="Left" Margin="753,0,0,0" VerticalAlignment="Center" Width="120">
+        <ComboBoxItem Name="pending" Content="pending"></ComboBoxItem>
+         <ComboBoxItem Name="done" Content="done"></ComboBoxItem>
+         <ComboBoxItem Name="delegated" Content="delegated"></ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" Margin="724,201,0,0" VerticalAlignment="Top" Height="22" Width="58" Click="btnAdd_Click"/>
+        <Button x:Name="btnDelete" Content="Delete" HorizontalAlignment="Left" Margin="808,201,0,0" VerticalAlignment="Top" Height="22" Width="58" Click="btnDelete_Click"/>
+        <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Margin="898,201,0,0" VerticalAlignment="Top" Height="22" Width="58" Click="btnUpdate_Click"/>
+        <Button x:Name="btnExport" Content="export" HorizontalAlignment="Left" Margin="264,269,0,0" VerticalAlignment="Top" Height="22" Width="58" Click="btnExport_Click"/>
+
+    </Grid>
+</Window>
