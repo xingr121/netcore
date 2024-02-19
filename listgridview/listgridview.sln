@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34525.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "listgridview", "listgridview.csproj", "{0D183150-CC8E-4C6B-906B-77222920A796}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D183150-CC8E-4C6B-906B-77222920A796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D183150-CC8E-4C6B-906B-77222920A796}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D183150-CC8E-4C6B-906B-77222920A796}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D183150-CC8E-4C6B-906B-77222920A796}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B750C3D-A63D-480C-9716-3A16279F5779}
+	EndGlobalSection
+EndGlobal

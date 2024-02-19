@@ -1,0 +1,4 @@
+jerry;56
+max;37
+ert;24
+tom;18

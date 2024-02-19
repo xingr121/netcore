@@ -65,6 +65,10 @@ namespace AllInput
             {
                 ageGroup = "36 and up";
             }
+            else
+            {
+                MessageBox.Show(this, "error reading radio button state", "internal error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
             string pets = "";
             if (CbxPetCat.IsChecked == true)
@@ -81,10 +85,16 @@ namespace AllInput
             }
             pets = pets.TrimEnd(',');
 
-            string continent = (ComboContinent.SelectedItem as ComboBoxItem).Content.ToString();
+            string continent = (ComboContinent.SelectedItem as ComboBoxItem).Content?.ToString();
+            if(continent == null)
+            {
+                MessageBox.Show(this,"please select a continent","input error",MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             string preferredTemp = ((int)slValue.Value).ToString();
 
             string record = $"{name};{ageGroup};{pets};{continent};{preferredTemp}";
+
+            // File.AppendAllText(@"..\..\data.txt",record +"\n");
 
             try
             {
